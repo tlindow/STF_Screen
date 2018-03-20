@@ -48,10 +48,14 @@ function setup() {
 function keyTyped() {
   if (key=='q') {
     print(key);
-    a = images[0];
-  } else if (key=='w') {
-    print(key);
-    a = images[1];
+    currentFrame--;
+    a = images[currentFrame];
+    print(currentFrame);
+    if (currentFrame < 0) {
+      currentFrame=2;
+      print(currentFrame);
+      a = images[currentFrame];
+    }
   } else if (key=='e') {
     print(key);
     a = images[2];
