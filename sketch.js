@@ -2,7 +2,8 @@ var numFrames = 3;
 var images = []; //image variable
 var currentFrame=0;
 var imageName = [];
-var a;
+var a; //variable to switch between images
+var slider; //slider to change number of cubes
 
 // Various parameters for rectangles (falling cubes)
 var speed = []; //array of various speeds
@@ -11,22 +12,29 @@ var x = []; //array of x positions
 var y = []; //array of y positions
 var angle = []; //array of starting angles
 var l = []; //array of side lengths (for rectangles)
-var n = 12; //number of rectangles
+var n = 10; //number of rectangles
 
 function preload() {
   for (var i = 0; i <numFrames;i++) {
     imageName[i] = "src/STF_slide" + i + ".jpg";
     images[i] = loadImage(imageName[i]);
   }
-  // img_0 = loadImage("src/STF_slide.jpg"); //change to slide zero
+  // img_0 = loadImage("src/STF_slide.jpg");
   // img_1 = loadImage("src/STF_slide1,jpg");
-  // img_2 = loadImage("src/STF_slide2.jpg"); //load Solve the Fall image
+  // img_2 = loadImage("src/STF_slide2.jpg");
 }
 
 function setup() {
   createCanvas(displayWidth,displayHeight); //full size of monitor screen
   a = images[0];
   background(a);
+
+  slider = createSlider(0,10,5,1);
+  slider.parent('slideContainer');
+  slider.class('slider');
+  slider.position(125,height-50)
+
+
   for (var i = 0; i < n; i++) {
     x[i] = random(20,width-20); //set random x-positions for each cube
     angle[i] = random(0,TWO_PI); //set random starting angles for each cube
@@ -53,6 +61,8 @@ function keyTyped() {
 function draw() {
 
 background(a);
+
+  n = slider.value();//controls the number of cubes on the screen
 
   rectMode(CENTER); //set cube pivot points to the center
   fill('#85C456'); //green color
