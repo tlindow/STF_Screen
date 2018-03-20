@@ -12,7 +12,7 @@ var x = []; //array of x positions
 var y = []; //array of y positions
 var angle = []; //array of starting angles
 var l = []; //array of side lengths (for rectangles)
-var n = 10; //number of rectangles
+var n = 100; //number of rectangles
 
 function preload() {
   for (var i = 0; i <numFrames;i++) {
@@ -29,7 +29,7 @@ function setup() {
   a = images[0];
   background(a);
 
-  slider = createSlider(0,10,5,1);
+  slider = createSlider(0,n,5,1);
   slider.parent('slideContainer');
   slider.class('slider');
   slider.position(125,height-50)
