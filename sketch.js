@@ -4,6 +4,7 @@ var currentFrame=0;
 var imageName = [];
 var a; //variable to switch between images
 var slider; //slider to change number of cubes
+var start;
 
 // Various parameters for rectangles (falling cubes)
 var speed = []; //array of various speeds
@@ -45,22 +46,24 @@ function setup() {
   }
 }
 
-function keyTyped() {
-  if (key=='q') {
-    print(key);
-    currentFrame--;
-    a = images[currentFrame];
+function Cycle() {
+  currentFrame--;
+  a = images[currentFrame];
+  print(currentFrame);
+  if (currentFrame < 0) {
+    currentFrame=2;
     print(currentFrame);
-    if (currentFrame < 0) {
-      currentFrame=2;
-      print(currentFrame);
-      a = images[currentFrame];
-    }
-  } else if (key=='e') {
-    print(key);
-    a = images[2];
+    a = images[currentFrame];
   }
 }
+
+function keyTyped() {
+  if (key=='q') {
+    start = new Cycle();
+  }
+}
+
+var myTimer = setInterval(Cycle,10000);
 
 function draw() {
 
