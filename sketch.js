@@ -4,7 +4,7 @@ var currentFrame=0;
 var imageName = [];
 var a; //variable to switch between images
 var slider; //slider to change number of cubes
-var start;
+var start; //initiate cycling through slides
 
 // Various parameters for rectangles (falling cubes)
 var speed = []; //array of various speeds
@@ -20,17 +20,17 @@ function preload() {
     imageName[i] = "src/STF_slide" + i + ".jpg";
     images[i] = loadImage(imageName[i]);
   }
-  // img_0 = loadImage("src/STF_slide.jpg");
+  // img_0 = loadImage("src/STF_slide0.jpg");
   // img_1 = loadImage("src/STF_slide1,jpg");
   // img_2 = loadImage("src/STF_slide2.jpg");
 }
 
 function setup() {
   createCanvas(displayWidth,displayHeight); //full size of monitor screen
-  a = images[0];
+  a = images[0];//initial background image
   background(a);
 
-  slider = createSlider(0,n,5,1);
+  slider = createSlider(0,n,5,1); //Bottom slider for controlling number of falling cubes
   slider.parent('slideContainer');
   slider.class('slider');
   slider.position(125,height-50)
@@ -46,7 +46,7 @@ function setup() {
   }
 }
 
-function Cycle() {
+function Cycle() { //cycling through slides ("frames")
   currentFrame--;
   a = images[currentFrame];
   print(currentFrame);
@@ -58,18 +58,18 @@ function Cycle() {
 }
 
 function keyTyped() {
-  if (key=='q') {
+  if (key=='q') { //manually cycle through slides when "q" pressed
     start = new Cycle();
   }
 }
 
-var myTimer = setInterval(Cycle,10000);
+var myTimer = setInterval(Cycle,10000); //auto cycle through slides, switch at 10 seconds
 
 function draw() {
 
 background(a);
 
-  n = slider.value();//controls the number of cubes on the screen
+  n = slider.value();//controls the number of cubes on the screen, n being the max number
 
   rectMode(CENTER); //set cube pivot points to the center
   fill('#85C456'); //green color
