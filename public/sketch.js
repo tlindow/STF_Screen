@@ -5,6 +5,7 @@ var imageName = [];
 var a; //variable to switch between images
 var slider; //slider to change number of cubes
 var start; //initiate cycling through slides
+var socket;
 
 // Various parameters for rectangles (falling cubes)
 var speed = []; //array of various speeds
@@ -26,6 +27,9 @@ function preload() {
 }
 
 function setup() {
+
+  //socket = socket.io.connect('http://localhost:3000')
+
   createCanvas(displayWidth,displayHeight); //full size of monitor screen
   a = images[0];//initial background image
   background(a);
