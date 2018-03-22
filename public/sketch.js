@@ -74,6 +74,9 @@ function draw() {
 background(a);
 
   n = slider.value();//controls the number of cubes on the screen, n being the max number
+  console.log('Sending n: ' + n);
+
+  socket.emit('cubes', n);
 
   rectMode(CENTER); //set cube pivot points to the center
   fill('#85C456'); //green color
