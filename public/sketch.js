@@ -5,6 +5,7 @@ var imageName = [];
 var a; //variable to switch between images
 var slider; //slider to change number of cubes
 var start; //initiate cycling through slides
+var start1;
 var socket;
 
 // Various parameters for rectangles (falling cubes)
@@ -14,7 +15,7 @@ var x = []; //array of x positions
 var y = []; //array of y positions
 var angle = []; //array of starting angles
 var l = []; //array of side lengths (for rectangles)
-var n = 100; //number of rectangles
+// var n; //max number of rectangles
 
 function preload() {
   for (var i = 0; i <numFrames;i++) {
@@ -29,18 +30,19 @@ function preload() {
 function setup() {
 
   //socket = socket.io.connect('http://localhost:3000')
-
   createCanvas(displayWidth,displayHeight); //full size of monitor screen
   a = images[0];//initial background image
   background(a);
+  //slider.value();
 
-  slider = createSlider(0,n,5,1); //Bottom slider for controlling number of falling cubes
+  socket.on('cubes', newFalling);
+
+  slider = createSlider(0,100,5,1); //Bottom slider for controlling number of falling cubes
   slider.parent('slideContainer');
   slider.class('slider');
   slider.position(125,height-50)
 
-
-  for (var i = 0; i < n; i++) {
+  for (var i = 0; i < 100; i++) {
     x[i] = random(20,width-20); //set random x-positions for each cube
     angle[i] = random(0,TWO_PI); //set random starting angles for each cube
     speed[i] = random(.5,5); //set random speeds for each cube
@@ -48,6 +50,38 @@ function setup() {
     y[i] = -60; //set falling cubes to begin at above top of the screen
     l[i] = random(30,80); //set random side lengths for each cube
   }
+}
+
+function newFalling(data) {
+
+  slider.value(data.n);
+  rectMode(CENTER); //set cube pivot points to the center
+  fill('white'); //white
+  noStroke();
+
+  for (var i = 0; i < data.n; i++) { //put cubes in motion with previously set parameters
+    push();
+    translate(x[i],y[i]);
+    rotate(angle[i]);
+    y[i] += speed[i];
+    rect(0,0,l[i],l[i],10);
+    angle[i] += rspeed[i];
+    pop();
+    if (y[i] > height + 60) { //if cube has reached the bottom of screen...
+      y[i] = -60; //reset to the top
+      x[i] = random(20,width-20); //set a new x position
+      speed[i] = random(.5,5); //set a new speed
+    }
+  }
+}
+
+function mouseDragged() {
+  var data = {
+    n: slider.value()
+  }
+//controls the number of cubes on the screen, n being the max number
+console.log('Sending slider value: ' + slider.value());
+socket.emit('cubes', data);
 }
 
 function Cycle() { //cycling through slides ("frames")
@@ -72,17 +106,13 @@ var myTimer = setInterval(Cycle,10000); //auto cycle through slides, switch at 1
 function draw() {
 
 background(a);
-
-  n = slider.value();//controls the number of cubes on the screen, n being the max number
-  console.log('Sending n: ' + n);
-
-  socket.emit('cubes', n);
+fill('green');
 
   rectMode(CENTER); //set cube pivot points to the center
-  fill('#85C456'); //green color
+  fill('white'); //white
   noStroke();
 
-  for (var i = 0; i < n; i++) { //put cubes in motion with previously set parameters
+  for (var i = 0; i < slider.value(); i++) { //put cubes in motion with previously set parameters
     push();
     translate(x[i],y[i]);
     rotate(angle[i]);

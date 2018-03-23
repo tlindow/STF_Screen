@@ -18,7 +18,9 @@ function newConnection(socket) {
 
   socket.on('cubes', cubesMsg);
 
-  function cubesMsg(n) {
-    console.log(n);
+  function cubesMsg(data) {
+    socket.broadcast.emit('cubes', data);
+    //io.sockets.emit('cubes', n);
+    console.log(data);
   }
 }
