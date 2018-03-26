@@ -29,7 +29,7 @@ function preload() {
 
 function setup() {
 
-  socket = socket.io.connect('https://tlindow.github.io.')
+  //socket = socket.io.connect('localhost:3000')
   createCanvas(displayWidth,displayHeight); //full size of monitor screen
   a = images[0];//initial background image
   background(a);
