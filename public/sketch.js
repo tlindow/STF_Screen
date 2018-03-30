@@ -29,7 +29,7 @@ function preload() {
 
 function setup() {
 
-  //socket = socket.io.connect('localhost:3000')
+  socket = socket.io.connect('tm-eng:80')
   createCanvas(displayWidth,displayHeight); //full size of monitor screen
   a = images[0];//initial background image
   background(a);
